@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.VipMapper">
+	<!-- result映射 -->
+	<resultMap type="cn.sunshine.domain.Vip" id="vipRM">
+		<!-- 主键 -->
+		<id property="id" column="id"/>
+		<result property="vuuid" column="vuuid"/>
+		<result property="vipLevel" column="VipLevel"/>
+		<result property="vipIntegral" column="VipIntegral"/>
+		<result property="vipGold" column="VipGold"/>
+		<result property="vipStatus" column="VipStatus"/>
+	</resultMap>
+	
+	<!-- 查询 -->
+	<select id="find" parameterType="map" resultMap="vipRM">
+		select * from Vip
+		where 1=1
+	</select>
+	
+ 	<select id="getVipId" parameterType="string" resultMap="vipRM">
+		select * from Vip
+		where vuuid=#{vuuid}
+	</select> 
+	
+	
+	<!-- 查询一个 -->
+	<select id="get" parameterType="string" resultMap="vipRM">
+		select * from Vip
+		where id=#{id}
+	</select>
+	
+	<!-- 增家 -->
+	<insert id="insert" parameterType="cn.sunshine.domain.Vip">
+		insert into Vip
+		(VUUID,VIPLEVEL,VIPINTEGRAL,VIPGOLD,VIPSTATUS)
+		values
+		(	
+			#{vuuid},
+			#{vipLevel},
+			#{vipIntegral},
+			#{vipGold},
+			#{vipStatus}
+		)
+	</insert>
+	
+	<!-- 修改 动态sql语句 -->
+	<update id="update" parameterType="cn.sunshine.domain.Vip">
+		update Vip
+		<set>
+			<if test="VIPLEVEL != null">VIPLEVEL=#{vipLevel},</if>
+			<if test="VIPINTEGRAL != null">VIPINTEGRAL=#{vipIntegral},</if>
+			<if test="VIPGOLD != null">VIPGOLD=#{vipGold},</if>
+			<if test="VIPSTATUS != null">VIPSTATUS=#{vipStatus}</if>
+		</set>
+		where id=#{vid}
+	</update>
+	
+	<!-- 删除一条 -->
+	<delete id="deleteById" parameterType="string">
+		delete from Vip
+		where id=#{id}
+	</delete>
+	
+	<delete id="deleteByVuuid" parameterType="string">
+		delete from Vip
+		where vuuid=#{vuuid}
+	</delete>
+	
+	<!-- 删除多条 -->
+	<delete id="delete" parameterType="string">
+		delete from Vip
+		where id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!-- 修改状态 -->
+	<update id="updateStatus" parameterType="map">
+		update Vip set VipStatus=#{vipStatus}
+		where id in 
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

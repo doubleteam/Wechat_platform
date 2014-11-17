@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.MoreMapper">
+	<!-- result映射 -->
+	<resultMap type="cn.sunshine.domain.More" id="moreRM">
+		<!-- 主键 -->
+		<id property="id" column="Id"/>
+		<result property="joke" column="Joke"/>
+	</resultMap>
+	
+	<!-- 查询 -->
+	<select id="find" parameterType="map" resultMap="moreRM">
+		select * from More
+		where 1=1
+	</select>
+	
+ <!-- 	<select id="getVipId" parameterType="string" resultMap="moreRM">
+		select id from Vip
+		where uuid=#{uuid}
+	</select>  -->
+	
+	
+	<!-- 查询一个 -->
+	<select id="get" parameterType="string" resultMap="moreRM">
+		select * from More
+		where Id=#{id}
+	</select>
+	
+	<!-- 增家 -->
+	<insert id="insert" parameterType="cn.sunshine.domain.More">
+		insert into More
+		(Joke)
+		values
+		(	
+			#{Joke}
+		)
+	</insert>
+	
+	<!-- 修改 动态sql语句 -->
+	<update id="update" parameterType="cn.sunshine.domain.More">
+		update More
+		<set>
+			<if test="Joke != null">Joke=#{Joke}</if>
+		</set>
+		where Id=#{id}
+	</update>
+	
+	<!-- 删除一条 -->
+	<delete id="deleteById" parameterType="string">
+		delete from More
+		where Id=#{vid}
+	</delete>
+	
+	<!-- 删除多条 -->
+	<delete id="delete" parameterType="string">
+		delete from More
+		where Id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

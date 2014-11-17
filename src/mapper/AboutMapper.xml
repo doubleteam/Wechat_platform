@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.AboutMapper">
+	<!-- result映射 -->
+	<resultMap type="cn.sunshine.domain.About" id="aboutRM">
+		<!-- 主键 -->
+		<id property="id" column="id"/>
+		<result property="customServiceQQ" column="CustomServiceQQ"/>
+		<result property="customServicePhone" column="CustomServicePhone"/>
+		<result property="scope" column="Scope"/>
+		<result property="serviceTime" column="ServiceTime"/>
+		<result property="price" column="price"/>
+	</resultMap>
+	
+	<!-- 查询 -->
+	<select id="find" parameterType="map" resultMap="aboutRM">
+		select * from About
+		where 1=1
+	</select>
+	
+ <!-- 	<select id="getVipId" parameterType="string" resultMap="aboutRM">
+		select id from About
+		where uuid=#{uuid}
+	</select>  -->
+	
+	
+	<!-- 查询一个 -->
+	<select id="get" parameterType="string" resultMap="aboutRM">
+		select * from About
+		where id=#{id}
+	</select>
+	
+	<!-- 增家 -->
+	<insert id="insert" parameterType="cn.sunshine.domain.About">
+		insert into About
+		(CustomServiceQQ,CustomServicePhone,Scope,ServiceTime,price)
+		values
+		(	
+			#{CustomServiceQQ},
+			#{CustomServicePhone},
+			#{Scope},
+			#{ServiceTime},
+			#{price}
+		)
+	</insert>
+	
+	<!-- 修改 动态sql语句 -->
+	<update id="update" parameterType="cn.sunshine.domain.About">
+		update About
+		<set>
+			<if test="CustomServiceQQ != null">CustomServiceQQ=#{CustomServiceQQ},</if>
+			<if test="CustomServicePhone != null">CustomServicePhone=#{CustomServicePhone},</if>
+			<if test="Scope != null">Scope=#{Scope},</if>
+			<if test="ServiceTime != null">ServiceTime=#{ServiceTime},</if>
+			<if test="price != null">price=#{ServicpriceeTime}</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<!-- 删除一条 -->
+	<delete id="deleteById" parameterType="string">
+		delete from About
+		where id=#{id}
+	</delete>
+	
+	<!-- 删除多条 -->
+	<delete id="delete" parameterType="string">
+		delete from About
+		where id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+</mapper>
